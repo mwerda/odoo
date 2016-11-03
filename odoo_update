@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [[ -z "$1" ]]; then
+    echo "Usage ./odoo_update {module1,module2}"
+else
+    if [[ -f "./environment.sh" ]]; then
+        source environment.sh
+    fi
+    ADDONS_PATH=$(awk -vORS=, '{ print $1 }' addons_path.conf | sed 's/,$/\n/')
+    sudo docker-compose run odoo start -u $1 -d ${ODOO_DBNAME} --db-filter=${ODOO_DBNAME} --addons=${ADDONS_PATH}
+fi
