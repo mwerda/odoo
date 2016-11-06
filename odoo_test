@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [[ -f "./environment.sh" ]]; then
-    source environment.sh
-fi
-
-ADDONS_PATH=$(awk -vORS=, '{ print $1 }' addons_path.conf | sed 's/,$/\n/')
-
-sudo docker-compose run odoo start -t -i $1 -d ${ODOO_DBNAME} --db-filter=${ODOO_DBNAME} --addons=${ADDONS_PATH} --stop-after-init
